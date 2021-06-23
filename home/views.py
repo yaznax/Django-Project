@@ -1,8 +1,12 @@
 from django.shortcuts import render
+from .models import *
 
 # Create your views here.
-def index(request):
-	return render(request,'index.html')
+def home(request):
+	view = {}
+	view['feedback'] = Feedback.objects.all()
+
+	return render(request,'index.html',view)
 
 def about(request):
 	return render(request,'about.html')

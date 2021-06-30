@@ -1,44 +1,50 @@
 from django.shortcuts import render
 from .models import *
-
 # Create your views here.
-def views():
-    view = {}
-	view['feedback'] = Feedback.objects.all()
-
-    	
 def home(request):
-	view = views()
+	view={}
+	view["feedback"]=Feedback.objects.all()
+
 	return render(request,'index.html',view)
 
 def about(request):
-    view = views()
-	return render(request,'about.html',view)
-
-def contact(request):
-    	view = views()
-	return render(request,'contact.html')
+	return render(request,'about.html')
 
 def bloghome(request):
-	view = views()
 	return render(request,'blog-home.html')
 
 def blogsingle(request):
-    	view = views()
 	return render(request,'blog-single.html')
 
+def contact(request):
+	context={}
+	context['message']=""
+	if request.method=='POST':
+
+		name=request.POST['name']
+		email = request.POST['email']
+		subject = request.POST['subject']
+		message = request.POST['message']
+		data=Contact.objects.create(
+			name=name,
+			email=email,
+			subject=subject,
+			message=message)
+		data.save()
+		context["message"]="file is uploded"
+		return render(request,'contact.html',context)
+	elif request.method=='GET':
+		return render(request,'contact.html',context)
+
+
 def elements(request):
-    	view = views()
 	return render(request,'elements.html')
 
 def portfolio(request):
-    	view = views()
 	return render(request,'portfolio.html')
 
 def price(request):
-    	view = views()
-	return render(request,'price.html')
+	return render(request,'price.html')		
 
 def services(request):
-    	view = views()
-	return render(request,'services.html')
+	return render(request,'services.html')								
